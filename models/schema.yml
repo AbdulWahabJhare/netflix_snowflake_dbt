@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: fct_ratings
+    columns:
+      - name: movie_id
+        tests:
+          - relationships:
+              to: ref('dim_movies')
+              field: movie_id
+      - name: rating
+        description: User's rating for a movie
+        tests:
+          - not_null
+      - name: rating_timestamp
+        description: Unix timestamp when the rating was made
+
+  - name: fct_genome_scores
+    description: Fact table of relevance scores per movie and tag
+    columns:
+      - name: movie_id
+        description: Foreign key to dim_movies
+        tests:
+          - not_null
+      - name: tag_id
+        description: Foreign key to dim_genome_tags
+        tests:
+          - not_null
+      - name: relevance_score
+        description: Relevance score (0 to 1) for tag's association with movie
+        tests:
+          - not_null
